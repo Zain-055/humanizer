@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humanlify | AI Detector & Humanizer</title>
+    <meta name="description" content="Humanlify is a free AI detector and humanizer. Paste text to get AI probability with reasons, then rewrite into natural human style across casual, professional, or academic tones.">
+    <meta name="keywords" content="Humanlify, AI text humanizer, AI to human text, humanize AI content, student tone, essay rewriter, AI detector, rewrite AI text, ai text remover, humanize ai text, ai humanizer, ai content humanizer, remove ai detection, ai detector bypass, ai text to human text, make ai text sound human, ai writing humanizer, bypass ai detection, undetectable ai text, ai content detector remover, pass ai detection tools, turn ai text into human, human written ai content, remove chatgpt detection, ai detection remover tool, rewrite ai generated text, ai paraphrasing tool, natural language rewriter, content humanization tool, ai rewriter human style, improve ai writing quality, natural sounding ai text">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://humanlify.netlify.app/">
+    <meta property="og:title" content="Humanlify | AI Detector & Humanizer">
+    <meta property="og:description" content="Detect AI-generated writing and humanize it into natural, student or professional style. Free, browser-based tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://humanlify.netlify.app/">
+    <meta property="og:site_name" content="Humanlify">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Humanlify | AI to Human Text Converter">
+    <meta name="twitter:description" content="Humanlify helps you turn AI-generated content into natural human writing, keeping structure and punctuation intact.">
+    <meta name="google-site-verification" content="JiprbkZWYoej2R0cQc1PRFe9iYVXnM-plNITHl-Pc0E" />
+    <link rel="stylesheet" href="style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Humanlify - AI Text Humanizer",
+      "url": "https://humanlify.netlify.app/",
+      "description": "Humanlify is a free browser-based AI detector and humanizer that analyzes text for AI signals and rewrites content into more natural, student-style, professional, or academic writing.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does the Humanlify AI detector do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It estimates how likely your text is AI-generated using phrasing, structure, and style signals, and explains the reasons behind the score."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Humanlify make AI text sound more human?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Choose a tone (casual, professional, or academic) and Humanlify rewrites AI-like text into more natural human wording while preserving punctuation and line breaks."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Humanlify free and browser-based?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Humanlify runs fully in your browser and is free to use. No accounts or API keys required."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div class="grid-background">
+        <div class="converter-container">
+            
+            
+            <div class="mode-toggle">
+                <button id="detectTab" class="mode-tab active">Detect AI</button>
+                <button id="humanizeTab" class="mode-tab">Humanize Text</button>
+            </div>
+            
+            <div class="input-section">
+                <h3>Input buffer</h3>
+                <textarea 
+                    id="aiInput" 
+                    placeholder="Paste text here to detect AI or humanize it..."
+                    rows="6"
+                ></textarea>
+            </div>
+            
+            <div class="options-row">
+                <div class="option-group">
+                    <label for="intensitySelect">Humanization level</label>
+                    <select id="intensitySelect">
+                        <option value="light">Light</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="strong">Strong</option>
+                    </select>
+                </div>
+                <div class="option-group" id="toneGroup">
+                    <label for="toneSelect">Tone</label>
+                    <select id="toneSelect">
+                        <option value="casual" selected>Casual</option>
+                        <option value="professional">Professional</option>
+                        <option value="academic">Academic</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="humanizeButton">Detect AI</button>
+                <button id="copyButton" class="secondary">Copy</button>
+                <button id="clearButton" class="secondary">Clear</button>
+            </div>
+            
+            <div class="output-section">
+                <h3 id="outputTitle">Detection console</h3>
+                <div class="output-container" id="humanizeOutputContainer">
+                    <div class="scan-overlay" id="scanOverlay">
+                        <div class="scan-line"></div>
+                        <div class="scan-text" id="scanText">Initializing humanizer core...</div>
+                    </div>
+                    <div id="humanOutput" class="output-text">
+                        Humanized text will appear here after decryption.
+                    </div>
+                </div>
+                <div class="detector-container" id="detectorContainer">
+                    <div class="detector-score">
+                        <div class="detector-label">AI probability</div>
+                        <div class="detector-value" id="aiScoreValue">0%</div>
+                        <div class="detector-bar">
+                            <div class="detector-bar-fill" id="aiScoreBar"></div>
+                        </div>
+                    </div>
+                    <div class="detector-score">
+                        <div class="detector-label">Human probability</div>
+                        <div class="detector-value" id="humanScoreValue">0%</div>
+                        <div class="detector-bar human">
+                            <div class="detector-bar-fill" id="humanScoreBar"></div>
+                        </div>
+                    </div>
+                <div class="detector-metrics" id="detectorMetrics"></div>
+                <div class="detector-suggestions" id="detectorSuggestions"></div>
+                <div class="detector-sentences" id="detectorSentences"></div>
+                <div class="detector-summary" id="detectorSummary">
+                    Paste text and run detection to see how AI-like it looks.
+                </div>
+                <div class="detector-note" id="detectorNote">Heuristic detector; results are approximate.</div>
+            </div>
+            </div>
+            
+            <div class="stats">
+                <span id="charCount">0 characters</span>
+                <span id="processingTime">Idle</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
